@@ -43,7 +43,7 @@
 
 - Bila Sudah:
 
-    - Silahkan push branch yang kalian buat dan pilih target branch nya ke branch challange, dan buat pull request.Kemudian assign mentor, dan asisten mentor kalian sebagai reviewer.
+    - Silahkan push branch yang kalian buat, dan buatlah pull request, pilih target branch nya ke branch challange. Kemudian assign mentor, dan asisten mentor kalian sebagai reviewer.
         
         WARNING: JANGAN DI MERGE !!!!
 
