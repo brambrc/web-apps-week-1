@@ -72,6 +72,7 @@ func getQuotesFromAnime(w http.ResponseWriter, r *http.Request) {
 	//dan juga perlu menggunakan looping untuk menampilkan semua quotes
 	//hint: tambahkan struct baru yang sesuai dengan struktur json yang didapatkan dari api
 
+	// test
 }
 
 func main() {
