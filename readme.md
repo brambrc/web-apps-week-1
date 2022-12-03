@@ -47,7 +47,7 @@
         
         WARNING: JANGAN DI MERGE !!!!
 
-    - Kabarin via channel slack BE02 kalau kalian sudah mengumpulkan
+    - Kabarin via channel discord BE02 kalau kalian sudah mengumpulkan
     - Deadline 8 Desember 2022.
     - Gudluk !
 
