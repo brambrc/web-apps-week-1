@@ -1,88 +1,177 @@
 package main
 
-import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
-)
+// import (
+// 	"WepApp/model"
+// 	"encoding/json"
+// 	"fmt"
+// 	"io/ioutil"
+// 	"log"
+// 	"net/http"
 
-type Quotes struct {
-	Quote     string `json:"q"`
-	Speaker   string `json:"a"`
-	QuoteHTML string `json:"h"`
-}
+// 	_ "github.com/lib/pq"
+// 	"gorm.io/driver/postgres"
+// 	"gorm.io/gorm"
+// )
 
-func getQuotes(w http.ResponseWriter, r *http.Request) {
+// type Quotes struct {
+// 	Quote     string `json:"q"`
+// 	Speaker   string `json:"a"`
+// 	QuoteHTML string `json:"h"`
+// }
 
-	// Statement yang menghasilkan instance http.Client, diperlukan untuk eksekusi request
-	var client = &http.Client{}
+// type AnimeRepo struct {
+// 	db *gorm.DB
+// }
 
-	// http.NewRequest() digunakan untuk membuat request baru
-	hitTheApis, err := http.NewRequest("GET", "https://zenquotes.io/api/random", nil)
-	if err != nil {
-		panic(err)
-	}
+// func NewAnimeRepo(db *gorm.DB) AnimeRepo {
+// 	return AnimeRepo{db}
+// }
 
-	resp, err := client.Do(hitTheApis)
-	if err != nil {
-		panic(err)
-	}
+// func connectToDB() (*gorm.DB, error) {
+// 	dbCredential := model.CredentialDB{
+// 		Host:         "localhost",
+// 		Username:     "postgres",
+// 		Password:     "HansPG001",
+// 		DatabaseName: "ChallangeDatabase",
+// 		Port:         "5432",
+// 	}
 
-	// Cetak status code request
-	fmt.Println("Status: ", resp.Status)
+// 	dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", dbCredential.Host, dbCredential.Username, dbCredential.Password, dbCredential.DatabaseName, dbCredential.Port)
+// 	db, err := gorm.Open(postgres.Open(dns), &gorm.Config{})
 
-	// Kita bisa membaca response body menggunakan package ioutil.
-	responseData, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	//disini response bodynya kita unmarshall dan convert ke struct Quotes
-	var quote []Quotes
-	var err2 = json.Unmarshal(responseData, &quote)
-	if err2 != nil {
-		fmt.Println(err2)
-	}
+// 	return db, nil
+// }
 
-	//disini kita convert struct Quotes ke json
-	quo := &Quotes{
-		Quote:     quote[0].Quote,
-		Speaker:   quote[0].Speaker,
-		QuoteHTML: quote[0].QuoteHTML,
-	}
+// func getQuotes(w http.ResponseWriter, r *http.Request) {
 
-	wrap, err := json.Marshal(quo)
+// 	// Statement yang menghasilkan instance http.Client, diperlukan untuk eksekusi request
+// 	var client = &http.Client{}
 
-	if err != nil {
-		fmt.Println(err)
-	}
+// 	// http.NewRequest() digunakan untuk membuat request baru
+// 	hitTheApis, err := http.NewRequest("GET", "https://zenquotes.io/api/random", nil)
+// 	if err != nil {
+// 		panic(err)
+// 	}
 
-	//disini kita kirim response ke client
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(wrap)
+// 	resp, err := client.Do(hitTheApis)
+// 	if err != nil {
+// 		panic(err)
+// 	}
 
-}
-func getQuotesFromAnime(w http.ResponseWriter, r *http.Request) {
-	//silahkan bikin hall yang sama dengan endpoint /getQuotes tapi dengan endpoint dibawah ini
-	//dokumentasi https://animechan.vercel.app/docs
-	//pilih api yang bisa mendapatkan 10 quotes random sekaligus, dan tampilkan semuanya
-	//struktur functionnya sama dengan function getQuotes diatas, namun karena datanya lebih banyak, maka kita perlu menggunakan array of struct
-	//dan juga perlu menggunakan looping untuk menampilkan semua quotes
-	//hint: tambahkan struct baru yang sesuai dengan struktur json yang didapatkan dari api
+// 	// Cetak status code request
+// 	fmt.Println("Status: ", resp.Status)
 
-}
+// 	// Kita bisa membaca response body menggunakan package ioutil.
+// 	responseData, err := ioutil.ReadAll(resp.Body)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
 
-func main() {
-	http.HandleFunc("/getQuotes", getQuotes)
-	http.HandleFunc("/getQuotesFromAnime", getQuotesFromAnime)
+// 	//disini response bodynya kita unmarshall dan convert ke struct Quotes
+// 	var quote []Quotes
+// 	var err2 = json.Unmarshal(responseData, &quote)
+// 	if err2 != nil {
+// 		fmt.Println(err2)
+// 	}
 
-	log.Println("Listening...at port 3333")
-	err := http.ListenAndServe(":3333", nil)
+// 	//disini kita convert struct Quotes ke json
+// 	quo := &Quotes{
+// 		Quote:     quote[0].Quote,
+// 		Speaker:   quote[0].Speaker,
+// 		QuoteHTML: quote[0].QuoteHTML,
+// 	}
 
-	if err != nil {
-		fmt.Printf("Error starting server: %s \n", err)
-		return
-	}
-}
+// 	wrap, err := json.Marshal(quo)
+
+// 	if err != nil {
+// 		fmt.Println(err)
+// 	}
+
+// 	//disini kita kirim response ke client
+// 	w.Header().Set("Content-Type", "application/json")
+// 	w.Write(wrap)
+
+// }
+// func getQuotesFromAnime(w http.ResponseWriter, r *http.Request) {
+// 	//silahkan bikin hall yang sama dengan endpoint /getQuotes tapi dengan endpoint dibawah ini
+// 	//dokumentasi https://animechan.vercel.app/docs
+// 	//pilih api yang bisa mendapatkan 10 quotes random sekaligus, dan tampilkan semuanya
+// 	//struktur functionnya sama dengan function getQuotes diatas, namun karena datanya lebih banyak, maka kita perlu menggunakan array of struct
+// 	//dan juga perlu menggunakan looping untuk menampilkan semua quotes
+// 	//hint: tambahkan struct baru yang sesuai dengan struktur json yang didapatkan dari api
+
+// }
+
+// func (a AnimeRepo) fetchQuotesFromAnime() {
+// 	resp, err := http.Get("https://animechan.vercel.app/api/quotes")
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+
+// 	responseData, err := ioutil.ReadAll(resp.Body)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+
+// 	var AnimeQuotes []AnimeQuotes
+// 	var err2 = json.Unmarshal(responseData, &AnimeQuotes)
+// 	if err2 != nil {
+// 		fmt.Println(err2)
+// 	}
+
+// 	if err := a.db.Create(&AnimeQuotes).Error; err != nil {
+// 		panic(err)
+// 	}
+
+// }
+
+// func selectQuotesFromAnime(w http.ResponseWriter, r *http.Request) {
+
+// }
+
+// func countQuotesFromAnime(w http.ResponseWriter, r *http.Request) {
+
+// }
+
+// func addQuotesFromAnime(w http.ResponseWriter, r *http.Request) {
+
+// }
+
+// func main() {
+
+// 	dbCredential := CredentialDB{
+// 		Host:         "localhost",
+// 		Username:     "postgres",
+// 		Password:     "HansPG001",
+// 		DatabaseName: "ChallangeDatabase",
+// 		Port:         "5432",
+// 	}
+
+// 	dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", dbCredential.Host, dbCredential.Username, dbCredential.Password, dbCredential.DatabaseName, dbCredential.Port)
+// 	db, err := gorm.Open(postgres.Open(dns), &gorm.Config{})
+
+// 	if err != nil {
+// 		panic(err)
+// 	}
+
+// 	db.AutoMigrate(&AnimeQuotes{})
+
+// 	http.HandleFunc("/getQuotes", getQuotes)
+// 	http.HandleFunc("/getQuotesFromAnime", getQuotesFromAnime)
+// 	http.HandleFunc("/fetch", fetchQuotesFromAnime)
+// 	http.HandleFunc("/select", selectQuotesFromAnime)
+// 	http.HandleFunc("/count", countQuotesFromAnime)
+// 	http.HandleFunc("/add", addQuotesFromAnime)
+
+// 	log.Println("Listening...at port 3333")
+// 	err = http.ListenAndServe(":3333", nil)
+
+// 	if err != nil {
+// 		fmt.Printf("Error starting server: %s \n", err)
+// 		return
+// 	}
+// }
