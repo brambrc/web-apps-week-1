@@ -15,3 +15,13 @@ type Quotes struct {
 	Character string `json:"character"`
 	Quote     string `json:"quote"`
 }
+
+type Select struct {
+	Anime     string `json:"anime"`
+	Character string `json:"character"`
+	Quote     string `json:"quote"`
+}
+
+type Count struct {
+	Total int64 `json:"total_data"`
+}
