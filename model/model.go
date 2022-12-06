@@ -16,7 +16,7 @@ type Quotes struct {
 	Quote     string `json:"quote"`
 }
 
-type Select struct {
+type Get struct {
 	Anime     string `json:"anime"`
 	Character string `json:"character"`
 	Quote     string `json:"quote"`

@@ -6,7 +6,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"a21hc3NpZ25tZW50/model"
+	"webapp/model"
 )
 
 type Postgres struct{}

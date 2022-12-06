@@ -56,17 +56,17 @@ func (api *API) SelectQuote(w http.ResponseWriter, r *http.Request) {
 	resp, err := api.quoteRepo.SelectQuote()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Get Data Gagal"))
+		w.Write([]byte("Select Data Gagal"))
 	}
-	temporary := model.Select{
-		Anime:     resp.Anime,
-		Character: resp.Character,
-		Quote:     resp.Quote,
+	temporary := model.Get{
+		Anime:     resp[0].Anime,
+		Character: resp[0].Character,
+		Quote:     resp[0].Quote,
 	}
 	data, er := json.Marshal(temporary)
 	if er != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Get Data Gagal Banget"))
+		w.Write([]byte("Select Data Gagal Banget"))
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -81,7 +81,7 @@ func (api *API) Count(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Count Data Gagal"))
 	}
 	temporary := model.Count{
-		Count: resp,
+		Total: resp,
 	}
 	data, er := json.Marshal(temporary)
 	if er != nil {
@@ -98,17 +98,14 @@ func (api *API) Add(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&quote)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(model.ErrorResponse{Error: "Bad Request"})
-		return
-	}
+		w.Write([]byte("Data not added"))
 
-	err = api.quoteRepo.Add(quote)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(model.ErrorResponse{Error: "Internal Server Error"})
-		return
 	}
-
+	er := api.quoteRepo.Add(quote)
+	if er != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Data not added"))
+	}
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(model.SuccessResponse{Message: "Quote Added"})
+	w.Write([]byte("Successfully Add Data"))
 }

@@ -7,14 +7,14 @@ import (
 )
 
 type API struct {
-	quotesRepo repo.QuoteRepository
-	mux        *http.ServeMux
+	quoteRepo repo.QuoteRepository
+	mux       *http.ServeMux
 }
 
-func NewAPI(quotesRepo repo.QuoteRepository) API {
+func NewAPI(quoteRepo repo.QuoteRepository) API {
 	mux := http.NewServeMux()
 	api := API{
-		quotesRepo,
+		quoteRepo,
 		mux,
 	}
 
